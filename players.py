@@ -13,7 +13,7 @@ class Player:
 
 
     def __repr__(self) -> str:
-        return f"Your hand: {str(self.own_cards).strip('[]')}\nValue: {self.card_value_counter}"
+        return f": {str(self.own_cards).strip('[]')}\nValue: {self.card_value_counter}"
 
 
 class Human(Player):
@@ -21,6 +21,14 @@ class Human(Player):
         super().__init__()
 
 
+    def __repr__(self) -> str:
+        return "Your hand " + super().__repr__()
+
+
 class Croupier(Player):
     def __init__(self) -> None:
         super().__init__()
+
+
+    def __repr__(self) -> str:
+        return "Croupier hand " + super().__repr__()

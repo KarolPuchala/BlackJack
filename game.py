@@ -22,20 +22,11 @@ class Game:
 
 
     @staticmethod
-    def _print_menu():
+    def _print_menu() -> None:
         print('''Available action:
             1) hit
             2) pass 
                 ''')
-
-
-    def start_game(self) -> None:
-        self.game_deck.shuffle_deck()
-        self.player.draw_card(self.game_deck.hit_card())
-        self.player.draw_card(self.game_deck.hit_card())
-        self.croupier.draw_card(self.game_deck.hit_card())
-        self.croupier.draw_card(self.game_deck.hit_card())
-        self.black_jack()
 
 
     def _player_drawing_card(self) -> None:
@@ -68,3 +59,26 @@ class Game:
     def black_jack(self) -> None:
         if self.player.card_value_counter == 22:
             raise GameOverCroupierException('Black Jack!!! You win!')
+
+
+    def start_game(self) -> None:
+        self.game_deck.shuffle_deck()
+        self.player.draw_card(self.game_deck.hit_card())
+        self.player.draw_card(self.game_deck.hit_card())
+        self.croupier.draw_card(self.game_deck.hit_card())
+        self.croupier.draw_card(self.game_deck.hit_card())
+        self.black_jack()
+
+        while True:
+            self.show_hand()
+            action = input(self._print_menu())
+            try:
+                self.player_action(action.lower())
+            except WrongActionException as e:
+                print(str(e))
+                continue
+            except (GameOverPlayerException, GameOverCroupierException) as e:
+                print(self.player)
+                print(self.croupier)
+                print(str(e))
+                break
